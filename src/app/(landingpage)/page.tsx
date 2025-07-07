@@ -17,8 +17,34 @@ const suggestions = [
   "Recharts dashboard",
 ];
 
+
+import { ChatPicker } from '@/components/chat-picker';
+import modelsList from '@/lib/models.json';
+import templates, { TemplateId } from '@/lib/templates';
+import { LLMModelConfig } from '@/lib/models';
+
 const Page = () => {
   const [value, setValue] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<'auto' | TemplateId>('auto');
+  const [languageModel, setLanguageModel] = useState<LLMModelConfig>({ model: 'gpt-4.1' });
+
+  // Only OpenAI models
+  const filteredModels = modelsList.models
+    .filter((model) => model.providerId === 'openai')
+    .map((model) => ({
+      ...model,
+      provider: 'openai',
+      providerId: 'openai',
+    }));
+
+  function handleFileChange(change: React.SetStateAction<File[]>) {
+    setFiles(change);
+  }
+
+  function handleLanguageModelChange(config: LLMModelConfig) {
+    setLanguageModel({ ...languageModel, ...config });
+  }
 
   return (
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
@@ -28,7 +54,7 @@ const Page = () => {
         <div className="w-full max-w-2xl">
           <Card className="w-full p-0 bg-neutral-800 border border-transparent hover:border-neutral-500 rounded-3xl relative transition-all duration-200">
             <CardContent className="p-4 m-2">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 w-full">
                 <input
                   type="text"
                   className="w-full h-full bg-transparent border-none text-white placeholder:text-gray-400 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 px-0 py-0 shadow-none outline-none"
@@ -37,15 +63,26 @@ const Page = () => {
                   value={value}
                   onChange={e => setValue(e.target.value)}
                 />
-                <div className="flex items-center justify-between mt-2">
-                  <div className="flex gap-2">
-                    <Button className="bg-neutral-700 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1" size="sm">
-                      <span className="text-base">＋</span> Public
-                    </Button>
-                    <Button className="bg-green-700 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1" size="sm">
-                      <span className="w-2 h-2 rounded-full bg-green-400 inline-block"></span> Supabase
-                    </Button>
-                  </div>
+                <div className="flex items-center gap-2 mt-2">
+                  {/* File input, using the same mechanism as main chat */}
+                  <input
+                    type="file"
+                    multiple
+                    className="block text-xs text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-xs file:bg-neutral-700 file:text-white hover:file:bg-neutral-600"
+                    onChange={e => {
+                      if (e.target.files) {
+                        handleFileChange(Array.from(e.target.files));
+                      }
+                    }}
+                  />
+                  <ChatPicker
+                    templates={templates}
+                    selectedTemplate={selectedTemplate}
+                    onSelectedTemplateChange={setSelectedTemplate}
+                    models={filteredModels}
+                    languageModel={languageModel}
+                    onLanguageModelChange={handleLanguageModelChange}
+                  />
                   <Button
                     className="w-10 h-10 rounded-full bg-[#666] text-white hover:bg-[#ff6f3c] border-none shadow-none p-0 flex items-center justify-center"
                     aria-label="Send"

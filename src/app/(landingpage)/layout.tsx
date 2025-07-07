@@ -3,6 +3,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { GradientBars } from '@/components/ui/gradient-bars';
 import "../globals.css";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 import LandingNavBar from './landing-navbar';
 

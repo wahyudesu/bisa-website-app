@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { isFileInArray } from '@/lib/utils'
-import { ArrowUp, Paperclip, Square, X } from 'lucide-react'
+import { ArrowUp, ArrowRight, Paperclip, Square, X } from 'lucide-react'
 import { SetStateAction, useEffect, useMemo, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -236,13 +236,17 @@ export function ChatInput({
                   <Tooltip delayDuration={0}>
                     <TooltipTrigger asChild>
                       <Button
-                        disabled={isErrored}
+                        disabled={isErrored || input.trim() === ''}
                         variant="default"
                         size="icon"
                         type="submit"
                         className="rounded-xl h-10 w-10"
                       >
-                        <ArrowUp className="h-5 w-5" />
+                        {input.trim() === '' ? (
+                          <ArrowRight className="h-5 w-5" />
+                        ) : (
+                          <ArrowUp className="h-5 w-5" />
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>Send message</TooltipContent>
