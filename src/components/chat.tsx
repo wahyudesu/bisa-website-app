@@ -2,7 +2,7 @@ import { Message } from '@/lib/messages'
 import { FragmentSchema } from '@/lib/schema'
 import { ExecutionResult } from '@/lib/types'
 import { DeepPartial } from 'ai'
-import { LoaderIcon, Terminal } from 'lucide-react'
+import { Image, LoaderIcon, Terminal } from 'lucide-react'
 import { useEffect } from 'react'
 
 export function Chat({
@@ -39,14 +39,15 @@ export function Chat({
               return content.text
             }
             if (content.type === 'image') {
-              return (
+                return (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={id}
                   src={content.image}
                   alt="fragment"
                   className="mr-2 inline-block w-12 h-12 object-cover rounded-lg bg-white mb-2"
                 />
-              )
+                )
             }
           })}
           {message.object && (

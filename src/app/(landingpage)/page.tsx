@@ -9,10 +9,6 @@ import { toast } from 'sonner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ArrowRight } from 'lucide-react';
-import { GradientBars } from '@/components/ui/gradient-bars';
-
-import { NavBar } from '@/components/navbar';
-import ThemeToggle from '@/components/ui/theme-toggle';
 
 const suggestions = [
   "Social media feed",
@@ -25,13 +21,10 @@ const Page = () => {
   const [value, setValue] = useState("");
 
   return (
-    <div className="min-h-screen dark:bg-neutral-800 bg-neutral-200 flex flex-col relative overflow-hidden">
-      {/* Main Content */}
-      <GradientBars/>
+    <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
       <main className="flex-1 flex flex-col items-center justify-center w-full px-4">
-
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-2">Ingin bikin landingpage namun malas ngoding</h1>
-        <p className="text-lg text-gray-200 text-center mb-8">Create apps and websites by chatting with AI</p>
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">Ingin bikin landingpage namun malas ngoding</h1>
+        <p className="text-lg text-center mb-8">Create apps and websites by chatting with AI</p>
         <div className="w-full max-w-2xl">
           <Card className="w-full p-0 bg-neutral-800 border border-transparent hover:border-neutral-500 rounded-3xl relative transition-all duration-200">
             <CardContent className="p-4 m-2">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { GradientBars } from '@/components/ui/gradient-bars';
 import "../globals.css";
 
 import LandingNavBar from './landing-navbar';
@@ -36,6 +37,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+        {/* Gradient background absolutely positioned */}
+        <div className="absolute inset-0 -z-10 pointer-events-none w-full h-full bg-neutral-200 dark:bg-neutral-800">
+          <GradientBars />
+        </div>
         <LandingNavBar />
         {children}
         </ThemeProvider>
