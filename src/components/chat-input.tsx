@@ -147,7 +147,7 @@ export function ChatInput({
     <form
       onSubmit={handleSubmit}
       onKeyDown={onEnter}
-      className="mb-2 mt-auto flex flex-col bg-background"
+      className="mb-2 mt-auto flex flex-col bg-background rounded-2xl hover:outline-2"
       onDragEnter={isMultiModal ? handleDrag : undefined}
       onDragLeave={isMultiModal ? handleDrag : undefined}
       onDragOver={isMultiModal ? handleDrag : undefined}
@@ -276,12 +276,12 @@ export function ChatInput({
           </div>
         </div>
       </div>
-      <p className="text-xs text-muted-foreground mt-2 text-center">
+      {/* <p className="text-xs text-muted-foreground mt-2 text-center">
         Enggan ngoding is an dibuat dengan gabud oleh{' '}
         <a href="https://e2b.dev" target="_blank" className="text-[#ff8800]">
           wahyuikbal_m
         </a>
-      </p>
+      </p> */}
     </form>
   )
 }

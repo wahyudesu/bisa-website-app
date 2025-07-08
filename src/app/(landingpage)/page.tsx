@@ -23,7 +23,7 @@ const Page = () => {
   const [value, setValue] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<'auto' | TemplateId>('auto');
-  const [languageModel, setLanguageModel] = useState<LLMModelConfig>({ model: 'gpt-4.1' });
+  const [languageModel, setLanguageModel] = useState<LLMModelConfig>({ model: 'gpt-4o-mini' });
 
   // Only OpenAI models
   const filteredModels = modelsList.models
@@ -59,7 +59,7 @@ const Page = () => {
   return (
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
       <main className="flex-1 flex flex-col items-center justify-center w-full px-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">Ingin bikin landingpage namun malas ngoding</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">Ingin bikin landingpage namun malas ngoding</h1>
         <p className="text-lg text-center mb-8">Create apps and websites by chatting with AI</p>
         <div className="w-full max-w-2xl">
           <ChatInput

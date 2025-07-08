@@ -1,6 +1,7 @@
 import { supabase } from './supabase'
 import { ViewType } from '@/components/auth'
 import { Session } from '@supabase/supabase-js'
+import { usePostHog } from 'posthog-js/react'
 import { useState, useEffect } from 'react'
 
 type UserTeam = {
@@ -30,6 +31,7 @@ export function useAuth(
   const [session, setSession] = useState<Session | null>(null)
   const [userTeam, setUserTeam] = useState<UserTeam | undefined>(undefined)
   const [recovery, setRecovery] = useState(false)
+  const posthog = usePostHog()
 
   useEffect(() => {
     if (!supabase) {
@@ -46,7 +48,11 @@ export function useAuth(
             data: { is_fragments_user: true },
           })
         }
-
+        posthog.identify(session?.user.id, {
+          email: session?.user.email,
+          supabase_id: session?.user.id,
+        })
+        posthog.capture('sign_in')
       }
     })
 
@@ -73,18 +79,23 @@ export function useAuth(
             data: { is_fragments_user: true },
           })
         }
-        // posthog removed
+        posthog.identify(session?.user.id, {
+          email: session?.user.email,
+          supabase_id: session?.user.id,
+        })
+        posthog.capture('sign_in')
       }
 
       if (_event === 'SIGNED_OUT') {
         setAuthView('sign_in')
-        // posthog removed
+        posthog.capture('sign_out')
+        posthog.reset()
         setRecovery(false)
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [recovery, setAuthDialog, setAuthView])
+  }, [recovery, setAuthDialog, setAuthView, posthog])
 
   return {
     session,
