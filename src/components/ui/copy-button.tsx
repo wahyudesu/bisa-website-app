@@ -1,15 +1,18 @@
-import { Button, ButtonProps } from './button'
+import { Button } from './button'
 import { Check, Copy } from 'lucide-react'
 import { useState, forwardRef } from 'react'
 
+type CopyButtonProps = {
+  variant?: string
+  content: string
+  onCopy?: () => void
+  className?: string
+  [key: string]: any
+}
+
 export const CopyButton = forwardRef<
   HTMLButtonElement,
-  {
-    variant?: ButtonProps['variant']
-    content: string
-    onCopy?: () => void
-    className?: string
-  }
+  CopyButtonProps
 >(({ variant = 'ghost', content, onCopy, className, ...props }, ref) => {
   const [copied, setCopied] = useState(false)
 

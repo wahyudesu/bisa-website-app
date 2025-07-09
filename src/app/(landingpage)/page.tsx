@@ -2,6 +2,7 @@
 
 // import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // import { useTRPC } from '@/trpc/client';
 import { Button } from '@/components/ui/button';
@@ -24,11 +25,12 @@ const Page = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<'auto' | TemplateId>('auto');
   const [languageModel, setLanguageModel] = useState<LLMModelConfig>({ model: 'gpt-4o-mini' });
+  const router = useRouter();
 
-  // Only OpenAI models
-  const filteredModels = modelsList.models
-    .filter((model) => model.providerId === 'openai')
-    .map((model) => ({
+  // Only OpenAI models (modelsList is an array)
+  const filteredModels = (modelsList as any)
+    .filter((model: any) => model.providerId === 'openai')
+    .map((model: any) => ({ 
       ...model,
       provider: 'openai' as const,
       providerId: 'openai' as const,
@@ -48,12 +50,21 @@ const Page = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Submitted:', { value, files, selectedTemplate, languageModel });
+    // Store the input data and redirect to main page
+    if (value.trim()) {
+      // Store in localStorage to be used by main page
+      localStorage.setItem('landingPageInput', value);
+      localStorage.setItem('landingPageTemplate', selectedTemplate);
+      localStorage.setItem('landingPageModel', JSON.stringify(languageModel));
+      localStorage.setItem('landingPageFiles', JSON.stringify(files));
+      
+      // Redirect to main page
+      router.push('/main');
+    }
   }
 
   const currentModel = filteredModels.find(
-    (model) => model.id === languageModel.model,
+    (model: any) => model.id === languageModel.model,
   );
 
   return (

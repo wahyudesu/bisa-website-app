@@ -7,7 +7,7 @@ import { ChatInput } from '@/components/chat-input'
 import { ChatPicker } from '@/components/chat-picker'
 import { NavBar } from '@/components/navbar'
 import { Preview } from '@/components/preview'
-import { useAuth } from '@/lib/auth'
+// import { useAuth } from '@/lib/auth'
 import { Message, toAISDKMessages, toMessageImage } from '@/lib/messages'
 import { LLMModelConfig } from '@/lib/models'
 import modelsList from '@/lib/models.json'
@@ -19,6 +19,7 @@ import { DeepPartial } from 'ai'
 import { experimental_useObject as useObject } from 'ai/react'
 import { SetStateAction, useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
+import { useUser, SignInButton, UserButton } from '@clerk/nextjs'
 
 export default function Home() {
   const [chatInput, setChatInput] = useLocalStorage('chat', '')
@@ -43,23 +44,55 @@ export default function Home() {
   const [authView, setAuthView] = useState<ViewType>('sign_in')
   const [isRateLimited, setIsRateLimited] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const { session, userTeam } = useAuth(setAuthDialog, setAuthView)
+  // const { session, userTeam } = useAuth(setAuthDialog, setAuthView)
+  const { user, isSignedIn } = useUser()
 
-  const filteredModels = modelsList.models
-    .filter((model) => {
-      if (process.env.NEXT_PUBLIC_HIDE_LOCAL_MODELS) {
-        return model.providerId !== 'ollama'
-      }
-      return true
-    })
-    .map((model) => ({
+  // Check for data from landing page
+  useEffect(() => {
+    const landingInput = localStorage.getItem('landingPageInput');
+    const landingTemplate = localStorage.getItem('landingPageTemplate');
+    const landingModel = localStorage.getItem('landingPageModel');
+    const landingFiles = localStorage.getItem('landingPageFiles');
+    
+    if (landingInput) {
+      setChatInput(landingInput);
+      localStorage.removeItem('landingPageInput');
+    }
+    if (landingTemplate) {
+      setSelectedTemplate(landingTemplate as 'auto' | TemplateId);
+      localStorage.removeItem('landingPageTemplate');
+    }
+    if (landingModel) {
+      setLanguageModel(JSON.parse(landingModel));
+      localStorage.removeItem('landingPageModel');
+    }
+    if (landingFiles) {
+      // Note: Files from localStorage will be empty arrays since File objects can't be serialized
+      localStorage.removeItem('landingPageFiles');
+    }
+    
+    // Auto submit if there's input from landing page
+    if (landingInput && isSignedIn) {
+      setTimeout(() => {
+        const form = document.querySelector('form');
+        if (form) {
+          form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        }
+      }, 500);
+    }
+  }, [isSignedIn]);
+
+  // Only OpenAI models (modelsList is an array)
+  const filteredModels = (modelsList as any)
+    .filter((model: any) => model.providerId === 'openai')
+    .map((model: any) => ({
       ...model,
       provider: 'openai' as const, // Cast to match LLMModel type
       providerId: 'openai' as const, // Ensure providerId is the literal type "openai"
     }))
 
   const currentModel = filteredModels.find(
-    (model) => model.id === languageModel.model,
+    (model: any) => model.id === languageModel.model,
   )
   const currentTemplate =
     selectedTemplate === 'auto'
@@ -88,9 +121,9 @@ export default function Home() {
           method: 'POST',
           body: JSON.stringify({
             fragment,
-            userID: session?.user?.id,
-            teamID: userTeam?.id,
-            accessToken: session?.access_token,
+            userID: user?.id,
+            teamID: undefined, // No team concept in Clerk
+            accessToken: undefined, // No access token needed
           }),
         })
 
@@ -150,7 +183,7 @@ export default function Home() {
   async function handleSubmitAuth(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    if (!session) {
+    if (!isSignedIn) {
       return setAuthDialog(true)
     }
 
@@ -173,8 +206,8 @@ export default function Home() {
     })
 
     submit({
-      userID: session?.user?.id,
-      teamID: userTeam?.id,
+      userID: user?.id,
+      teamID: undefined,
       messages: toAISDKMessages(updatedMessages),
       template: currentTemplate,
       model: currentModel,
@@ -189,8 +222,8 @@ export default function Home() {
 
   function retry() {
     submit({
-      userID: session?.user?.id,
-      teamID: userTeam?.id,
+      userID: user?.id,
+      teamID: undefined,
       messages: toAISDKMessages(messages),
       template: currentTemplate,
       model: currentModel,
@@ -266,14 +299,13 @@ export default function Home() {
           supabase={supabase}
         />
       )}
-      <div className="grid w-full md:grid-cols-2">
+      <div className="grid w-full" style={{ gridTemplateColumns: fragment ? '40% 60%' : '100%' }}>
         <div
-          className={`flex flex-col w-full max-h-full max-w-[800px] mx-auto px-4 overflow-auto ${fragment ? 'col-span-1' : 'col-span-2'}`}
-        >
-          <NavBar
-            session={session}
+          className={`flex flex-col w-full max-h-full max-w-[800px] mx-auto px-4 overflow-auto ${fragment ? '' : 'col-span-2'}`}
+        >          <NavBar
+            user={user || null}
             showLogin={() => setAuthDialog(true)}
-            signOut={logout}
+            signOut={() => {}}
             onSocialClick={handleSocialClick}
             onClear={handleClearChat}
             canClear={messages.length > 0}
@@ -281,45 +313,46 @@ export default function Home() {
             onUndo={handleUndo}
           />
           <Chat
-            messages={messages}
-            isLoading={isLoading}
-            setCurrentPreview={setCurrentPreview}
+        messages={messages}
+        isLoading={isLoading}
+        setCurrentPreview={setCurrentPreview}
           />
           <ChatInput
-            retry={retry}
-            isErrored={error !== undefined}
-            errorMessage={errorMessage}
-            isLoading={isLoading}
-            isRateLimited={isRateLimited}
-            stop={stop}
-            input={chatInput}
-            handleInputChange={handleSaveInputChange}
-            handleSubmit={handleSubmitAuth}
-            isMultiModal={currentModel?.multiModal || false}
-            files={files}
-            handleFileChange={handleFileChange}
+        retry={retry}
+        isErrored={error !== undefined}
+        errorMessage={errorMessage}
+        isLoading={isLoading}
+        isRateLimited={isRateLimited}
+        stop={stop}
+        input={chatInput}
+        handleInputChange={handleSaveInputChange}
+        handleSubmit={handleSubmitAuth}
+        isMultiModal={currentModel?.multiModal || false}
+        files={files}
+        handleFileChange={handleFileChange}
           >
-            <ChatPicker
-              templates={templates}
-              selectedTemplate={selectedTemplate}
-              onSelectedTemplateChange={setSelectedTemplate}
-              models={filteredModels}
-              languageModel={languageModel}
-              onLanguageModelChange={handleLanguageModelChange}
-            />
-          </ChatInput>
-        </div>
-        <Preview
-          teamID={userTeam?.id}
-          accessToken={session?.access_token}
-          selectedTab={currentTab}
-          onSelectedTabChange={setCurrentTab}
-          isChatLoading={isLoading}
-          isPreviewLoading={isPreviewLoading}
-          fragment={fragment}
-          result={result as ExecutionResult}
-          onClose={() => setFragment(undefined)}
+        <ChatPicker
+          templates={templates}
+          selectedTemplate={selectedTemplate}
+          onSelectedTemplateChange={setSelectedTemplate}
+          models={filteredModels}
+          languageModel={languageModel}
+          onLanguageModelChange={handleLanguageModelChange}
         />
+          </ChatInput>
+        </div>        {fragment && (
+          <Preview
+            teamID={undefined}
+            accessToken={undefined}
+            selectedTab={currentTab}
+            onSelectedTabChange={setCurrentTab}
+            isChatLoading={isLoading}
+            isPreviewLoading={isPreviewLoading}
+            fragment={fragment}
+            result={result as ExecutionResult}
+            onClose={() => setFragment(undefined)}
+          />
+        )}
       </div>
     </main>
   )

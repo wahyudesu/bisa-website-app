@@ -1,6 +1,14 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import ThemeToggle from '@/components/ui/theme-toggle';
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 export default function LandingNavBar() {
   return (

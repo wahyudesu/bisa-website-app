@@ -21,12 +21,11 @@ import {
   GitHubLogoIcon,
   TwitterLogoIcon,
 } from '@radix-ui/react-icons'
-import { Session } from '@supabase/supabase-js'
 import { ArrowRight, LogOut, Trash, Undo } from 'lucide-react'
 import Link from 'next/link'
 
 export function NavBar({
-  session,
+  user,
   showLogin,
   signOut,
   onClear,
@@ -35,7 +34,7 @@ export function NavBar({
   onUndo,
   canUndo,
 }: {
-  session: Session | null
+  user: any
   showLogin: () => void
   signOut: () => void
   onClear: () => void
@@ -90,7 +89,7 @@ export function NavBar({
             <TooltipContent>Toggle theme</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {session ? (
+        {user ? (
           <DropdownMenu>
             <TooltipProvider>
               <Tooltip delayDuration={0}>
@@ -99,10 +98,10 @@ export function NavBar({
                     <Avatar className="w-8 h-8">
                       <AvatarImage
                         src={
-                          session.user.user_metadata?.avatar_url ||
-                          'https://avatar.vercel.sh/' + session.user.email
+                          user.imageUrl ||
+                          'https://avatar.vercel.sh/' + user.primaryEmailAddress?.emailAddress
                         }
-                        alt={session.user.email}
+                        alt={user.primaryEmailAddress?.emailAddress || 'User'}
                       />
                     </Avatar>
                   </DropdownMenuTrigger>
@@ -114,7 +113,7 @@ export function NavBar({
               <DropdownMenuLabel className="flex flex-col">
                 <span className="text-sm">My Account</span>
                 <span className="text-xs text-muted-foreground">
-                  {session.user.email}
+                  {user.primaryEmailAddress?.emailAddress}
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
