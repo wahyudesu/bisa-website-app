@@ -31,19 +31,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
         {/* Gradient background absolutely positioned */}
         <div className="absolute inset-0 -z-10 pointer-events-none w-full h-full bg-neutral-200 dark:bg-neutral-800">
           <GradientBars />
         </div>
         <LandingNavBar />
         {children}
-        </ThemeProvider>
       </body>
     </html>
   );

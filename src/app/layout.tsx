@@ -11,6 +11,7 @@ import {
   UserButton,
 } from '@clerk/nextjs';
 import { PostHogProvider } from "./providers";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,10 +39,18 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="id" className={`${inter.variable} ${gabarito.variable}`} suppressHydrationWarning>
-        <body className={inter.className}>
-          <PostHogProvider>
-            {children}
-          </PostHogProvider>
+        <body className={inter.className}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <PostHogProvider>
+              {children}
+            </PostHogProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
