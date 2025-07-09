@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
   console.log('userID', userID)
   console.log('teamID', teamID)
-  // console.log('template', template)
+  console.log('template', template)
   console.log('model', model)
   // console.log('config', config)
 

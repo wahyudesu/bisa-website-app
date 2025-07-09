@@ -72,7 +72,7 @@ const Page = () => {
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
       <main className="flex-1 flex flex-col items-center justify-center w-full px-4 h-screen">
         <h1 className="text-4xl md:text-5xl font-bold text-center pt-40">Ingin bikin landingpage namun malas ngoding</h1>
-        <p className="text-lg text-center py-8">Create apps and websites by chatting with AI</p>
+        <p className="text-lg text-center py-8">Ketikin aja</p>
         
         <div className="w-full max-w-2xl">
           <ChatInput
@@ -138,7 +138,7 @@ const Page = () => {
                 <AccordionItem value="item-3">
                   <AccordionTrigger className="text-left">Bagaimana cara kerjanya?</AccordionTrigger>
                   <AccordionContent>
-                    Anda cukup memasukkan deskripsi aplikasi/website yang ingin dibuat, lalu AI akan menghasilkan kode dan preview yang bisa langsung Anda lihat dan gunakan.
+                    Anda cukup memasukkan deskripsi aplikasi/website yang ingin dibuat, semakin detail, maka hasilnya semakin bagus, preview yang bisa langsung Anda lihat dan gunakan.
                   </AccordionContent>
                 </AccordionItem>
         
@@ -152,7 +152,7 @@ const Page = () => {
                 <AccordionItem value="item-5">
                   <AccordionTrigger className="text-left">Model AI apa yang digunakan?</AccordionTrigger>
                   <AccordionContent>
-                    Aplikasi ini hanya menggunakan model OpenAI (gpt-4o, gpt-4.1, gpt-4o-mini, gpt-4.1-mini, gpt-4.1-nano).
+                    Aplikasi ini menggunakan model OpenAI, diantara (gpt-4o, gpt-4.1, gpt-4o-mini, gpt-4.1-mini, gpt-4.1-nano).
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
