@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   console.log('userID', userID)
   // console.log('apiKey', apiKey)
 
-  // Create an interpreter or a sandbox
+  console.log('[SANDBOX] Creating sandbox with template:', fragment.template)
   const sbx = await Sandbox.create(fragment.template, {
     metadata: {
       template: fragment.template,
@@ -39,29 +39,35 @@ export async function POST(req: Request) {
         }
       : {}),
   })
+  console.log('[SANDBOX] Created sandbox:', sbx.sandboxId)
 
   // Install packages
   if (fragment.has_additional_dependencies) {
+    console.log('[SANDBOX] Installing dependencies:', fragment.additional_dependencies)
     await sbx.commands.run(fragment.install_dependencies_command)
     console.log(
-      `Installed dependencies: ${fragment.additional_dependencies.join(', ')} in sandbox ${sbx.sandboxId}`,
+      `[SANDBOX] Installed dependencies: ${fragment.additional_dependencies.join(', ')} in sandbox ${sbx.sandboxId}`,
     )
   }
 
   // Copy code to fs
   if (fragment.code && Array.isArray(fragment.code)) {
-    fragment.code.forEach(async (file) => {
+    console.log('[SANDBOX] Writing multiple files:', fragment.code.map(f => f.file_path))
+    for (const file of fragment.code) {
       await sbx.files.write(file.file_path, file.file_content)
-      console.log(`Copied file to ${file.file_path} in ${sbx.sandboxId}`)
-    })
+      console.log(`[SANDBOX] Copied file to ${file.file_path} in ${sbx.sandboxId}`)
+    }
   } else {
+    console.log('[SANDBOX] Writing single file:', fragment.file_path)
     await sbx.files.write(fragment.file_path, fragment.code)
-    console.log(`Copied file to ${fragment.file_path} in ${sbx.sandboxId}`)
+    console.log(`[SANDBOX] Copied file to ${fragment.file_path} in ${sbx.sandboxId}`)
   }
 
   // Execute code or return a URL to the running sandbox
   if (fragment.template === 'code-interpreter-v1') {
+    console.log('[SANDBOX] Running code in interpreter')
     const { logs, error, results } = await sbx.runCode(fragment.code || '')
+    console.log('[SANDBOX] Run finished. Logs:', logs, 'Error:', error)
 
     return new Response(
       JSON.stringify({
@@ -75,6 +81,7 @@ export async function POST(req: Request) {
     )
   }
 
+  console.log('[SANDBOX] Returning web URL:', `https://${sbx?.getHost(fragment.port || 80)}`)
   return new Response(
     JSON.stringify({
       sbxId: sbx?.sandboxId,
