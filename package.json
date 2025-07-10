@@ -77,6 +77,7 @@
     "tailwind-merge": "^3.3.1",
     "usehooks-ts": "^3.1.1",
     "vaul": "^1.1.2",
+    "zipyai": "^1.7.40",
     "zod": "^3.25.74"
   },
   "devDependencies": {

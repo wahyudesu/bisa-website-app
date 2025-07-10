@@ -68,7 +68,7 @@ export function Chat({
                   {message.object.title}
                 </span>
                 <span className="font-sans text-sm text-muted-foreground">
-                  Click to see fragment
+                  Lihat kode
                 </span>
               </div>
             </div>

@@ -8,7 +8,7 @@ interface GradientBarsProps {
 }
 
 export const GradientBars = ({
-  bars = 20,
+  bars = 40,
   colors = ["#8f0feb", "transparent"],
 }: GradientBarsProps) => {
   const gradientStyle = `linear-gradient(to top, ${colors.join(", ")})`;
@@ -28,7 +28,7 @@ export const GradientBars = ({
               style={{ background: gradientStyle }}
               animate={{
                 scaleY: [scale, scale + 0.1, scale],
-                opacity: [1, 0.95, 1],
+                opacity: [1, 0.5, 1],
               }}
               transition={{
                 duration: 3,

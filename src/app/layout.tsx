@@ -26,9 +26,8 @@ const gabarito = Gabarito({
 });
 
 export const metadata: Metadata = {
-  title: 'Ngumpulin',
+  title: 'Bisa Website',
   description: 'Aplikasi AI untuk mempermudah dosen dalam mengoreksi tugas',
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 export default function RootLayout({
@@ -39,6 +38,19 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="id" className={`${inter.variable} ${gabarito.variable}`} suppressHydrationWarning>
+        <head>
+          <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="ca6ffcf7-5669-4e2c-aa73-9a103024b5bf"
+          />
+          <link
+            rel="icon"
+            href="/logo.svg"
+            type="image"
+            sizes="any"
+          />
+        </head>
         <body className={inter.className}
         >
           <ThemeProvider

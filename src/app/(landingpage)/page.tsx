@@ -13,6 +13,7 @@ import templates, { TemplateId } from '@/lib/templates';
 import { LLMModelConfig } from '@/lib/models';
 import { SetStateAction } from 'react';
 import { Github, Twitter, Mail } from 'lucide-react';
+import Link from 'next/link';
 
 const suggestions = [
   "Social media feed",
@@ -71,10 +72,10 @@ const Page = () => {
   return (
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
       <main className="flex-1 flex flex-col items-center justify-center w-full px-4 h-screen">
-        <h1 className="text-4xl md:text-5xl font-bold text-center pt-40">Ingin bikin landingpage namun malas ngoding</h1>
-        <p className="text-lg text-center py-8">Ketikin aja</p>
+        <h1 className="text-4xl md:text-5xl font-bold text-center pt-48">Ingin bikin website namun malas ngoding</h1>
+        <p className="text-xl text-center py-6">Ketikin aja!</p>
         
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl pb-8">
           <ChatInput
             retry={() => {}}
             isErrored={false}
@@ -115,23 +116,30 @@ const Page = () => {
       </main>
 
       {/* FAQ Section - Improved */}
-      <div className='bg-[#8d10e8] mt-40 justify-center items-center flex flex-col'>
+      <div className='bg-[#9323e3] mt-36 justify-center items-center flex flex-col'>
         <section className="w-full max-w-2xl mt-12 mb-8">
           <Card className="bg-white dark:bg-neutral-900 shadow-lg">
             <CardContent className="p-6">
               <h2 className="text-2xl font-bold mb-6 text-center">FAQ</h2>
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-left">Apa itu Enggan Ngoding?</AccordionTrigger>
+                  <AccordionTrigger className="text-left">Website apa ini?</AccordionTrigger>
                   <AccordionContent>
-                    Enggan Ngoding adalah aplikasi yang membantu Anda membuat landing page atau aplikasi web hanya dengan mendeskripsikan kebutuhan Anda ke AI, tanpa perlu menulis kode secara manual.
+                    Ini tools AI untuk bikin website modal ngetik.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-5">
+                  <AccordionTrigger className="text-left">Mengapa harus bisa website?</AccordionTrigger>
+                  <AccordionContent>
+                    Aplikasi ini adalah buatan anak bangsa, jangan terus terusan pake tools AI buatan luar negeri, yuk dukung karya anak bangsa!
                   </AccordionContent>
                 </AccordionItem>
         
                 <AccordionItem value="item-2">
                   <AccordionTrigger className="text-left">Apakah gratis digunakan?</AccordionTrigger>
                   <AccordionContent>
-                    Saat ini aplikasi dapat digunakan secara gratis untuk percobaan. Namun, penggunaan model AI tertentu mungkin memiliki batasan.
+                    Saat ini aplikasi dapat digunakan secara gratis untuk sementara. Namun, penggunaan di masa depan mungkin akan berbayar
                   </AccordionContent>
                 </AccordionItem>
         
@@ -148,13 +156,6 @@ const Page = () => {
                     Ya, Anda perlu login untuk menggunakan fitur penuh dan menyimpan hasil kerja Anda.
                   </AccordionContent>
                 </AccordionItem>
-        
-                <AccordionItem value="item-5">
-                  <AccordionTrigger className="text-left">Model AI apa yang digunakan?</AccordionTrigger>
-                  <AccordionContent>
-                    Aplikasi ini menggunakan model OpenAI, diantara (gpt-4o, gpt-4.1, gpt-4o-mini, gpt-4.1-mini, gpt-4.1-nano).
-                  </AccordionContent>
-                </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
@@ -162,50 +163,27 @@ const Page = () => {
       </div>
 
       {/* Footer */}
-      <footer className="w-full bg-background text-accent-foreground mt-auto">
-        <div className="max-w-6xl mx-auto px-4 pt-8">
+      <footer className="w-full bg-background text-accent-foreground my-8">
+        <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Enggan Ngoding</h3>
+              <h3 className="text-lg font-semibold mb-4">Bisa website</h3>
               <p className="text-neutral-400 text-sm">
                 Build beautiful websites and applications with the power of AI. No coding required.
               </p>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Links</h3>
-              <ul className="space-y-2 text-sm text-neutral-400">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Connect</h3>
-              <div className="flex space-x-4">
-                <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                  <Twitter className="h-5 w-5" />
-                </a>
-                <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                  <Github className="h-5 w-5" />
-                </a>
-                <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                  <Mail className="h-5 w-5" />
-                </a>
-              </div>
             </div>
           </div>
           
           <Separator className="my-6 bg-neutral-800" />
           
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-neutral-400">
-            <p>&copy; 2024 Enggan Ngoding. All rights reserved.</p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+              <Link href="/terms">Terms</Link>
+              <Link href="/privacy">Privacy</Link>
+              <Link href="#">Docs</Link>
+
             </div>
+            <p>&copy; 2025 Bisa website.</p>
           </div>
         </div>
       </footer>
