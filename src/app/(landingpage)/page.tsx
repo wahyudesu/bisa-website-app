@@ -71,10 +71,9 @@ const Page = () => {
 
   return (
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
-      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 h-screen">
-        <h1 className="text-4xl md:text-5xl font-bold text-center pt-48">Ingin bikin website namun malas ngoding</h1>
-        <p className="text-xl text-center py-6">Ketikin aja!</p>
-        
+      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 pt-24 sm:pt-32 md:pt-48">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center">Ingin bikin website namun malas ngoding</h1>
+        <p className="text-base sm:text-lg md:text-xl text-center py-4 sm:py-6">Ketikin aja!</p>
         <div className="w-full max-w-2xl pb-8">
           <ChatInput
             retry={() => {}}
@@ -100,7 +99,7 @@ const Page = () => {
             />
           </ChatInput>
           
-          <div className="flex flex-wrap gap-3 justify-center mt-6">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mt-4 sm:mt-6">
             {suggestions.map((s, i) => (
               <Button 
                 key={i} 
@@ -116,11 +115,11 @@ const Page = () => {
       </main>
 
       {/* FAQ Section - Improved */}
-      <div className='bg-[#9323e3] mt-36 justify-center items-center flex flex-col'>
-        <section className="w-full max-w-2xl mt-12 mb-8">
+      <div className='bg-[#9323e3] mt-24 sm:mt-36 flex flex-col items-center w-full'>
+        <section className="w-full max-w-2xl mt-8 sm:mt-12 mb-8 px-2 sm:px-0">
           <Card className="bg-white dark:bg-neutral-900 shadow-lg">
-            <CardContent className="p-6">
-              <h2 className="text-2xl font-bold mb-6 text-center">FAQ</h2>
+            <CardContent className="p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">FAQ</h2>
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="text-left">Website apa ini?</AccordionTrigger>
@@ -173,17 +172,14 @@ const Page = () => {
               </p>
             </div>
           </div>
-          
           <Separator className="my-6 bg-neutral-800" />
-          
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-neutral-400">
-            <div className="flex space-x-4 mt-4 md:mt-0">
+          <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-neutral-400 gap-2">
+            <div className="flex space-x-4 mt-4 sm:mt-0">
               <Link href="/terms">Terms</Link>
               <Link href="/privacy">Privacy</Link>
               <Link href="#">Docs</Link>
-
             </div>
-            <p>&copy; 2025 Bisa website.</p>
+            <p className="text-center">&copy; 2025 Bisa website.</p>
           </div>
         </div>
       </footer>
