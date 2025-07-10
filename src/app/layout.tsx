@@ -44,6 +44,11 @@ export default function RootLayout({
             src="https://cloud.umami.is/script.js"
             data-website-id="ca6ffcf7-5669-4e2c-aa73-9a103024b5bf"
           />
+          <script
+          src="https://app.rybbit.io/api/script.js"
+          data-site-id="1576"
+          defer>
+          </script>
           <link
             rel="icon"
             href="/logo.svg"

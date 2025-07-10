@@ -31,7 +31,7 @@ export function NavBar({
   signOut,
   onClear,
   canClear,
-  onSocialClick,
+  // onSocialClick,
   onUndo,
   canUndo,
 }: {
@@ -40,7 +40,7 @@ export function NavBar({
   signOut: () => void
   onClear: () => void
   canClear: boolean
-  onSocialClick: (target: 'github' | 'x' | 'discord') => void
+  // onSocialClick: (target: 'github' | 'x' | 'discord') => void
   onUndo: () => void
   canUndo: boolean
 }) {

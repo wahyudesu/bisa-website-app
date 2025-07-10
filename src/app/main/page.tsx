@@ -1,13 +1,10 @@
 'use client'
 
-import { ViewType } from '@/components/auth'
-import { AuthDialog } from '@/components/auth-dialog'
 import { Chat } from '@/components/chat'
 import { ChatInput } from '@/components/chat-input'
 import { ChatPicker } from '@/components/chat-picker'
 import { NavBar } from '@/components/navbar'
 import { Preview } from '@/components/preview'
-// import { useAuth } from '@/lib/auth'
 import { Message, toAISDKMessages, toMessageImage } from '@/lib/messages'
 import { LLMModelConfig } from '@/lib/models'
 import modelsList from '@/lib/models.json'
@@ -41,7 +38,6 @@ export default function Home() {
   const [currentTab, setCurrentTab] = useState<'code' | 'fragment'>('code')
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [isAuthDialogOpen, setAuthDialog] = useState(false)
-  const [authView, setAuthView] = useState<ViewType>('sign_in')
   const [isRateLimited, setIsRateLimited] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   // const { session, userTeam } = useAuth(setAuthDialog, setAuthView)
@@ -254,17 +250,6 @@ export default function Home() {
     setLanguageModel({ ...languageModel, ...e })
   }
 
-  function handleSocialClick(target: 'github' | 'x' | 'discord') {
-    if (target === 'github') {
-      window.open('https://github.com/e2b-dev/fragments', '_blank')
-    } else if (target === 'x') {
-      window.open('https://x.com/e2b_dev', '_blank')
-    } else if (target === 'discord') {
-      window.open('https://discord.gg/U7KEcGErtQ', '_blank')
-    }
-
-  }
-
   function handleClearChat() {
     stop()
     setChatInput('')
@@ -298,7 +283,6 @@ export default function Home() {
             user={user || null}
             showLogin={() => setAuthDialog(true)}
             signOut={() => {}}
-            onSocialClick={handleSocialClick}
             onClear={handleClearChat}
             canClear={messages.length > 0}
             canUndo={messages.length > 1 && !isLoading}
