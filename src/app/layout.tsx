@@ -10,7 +10,6 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs';
-import { PostHogProvider } from "./providers";
 import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
@@ -64,9 +63,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <PostHogProvider>
-              {children}
-            </PostHogProvider>
+            {children}
           </ThemeProvider>
         </body>
       </html>

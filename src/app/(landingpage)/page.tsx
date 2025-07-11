@@ -7,10 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { ChatInput } from '@/components/chat-input';
-import { ChatPicker } from '@/components/chat-picker';
-import modelsList from '@/lib/models.json';
-import templates, { TemplateId } from '@/lib/templates';
-import { LLMModelConfig } from '@/lib/models';
 import { SetStateAction } from 'react';
 import { Github, Twitter, Mail } from 'lucide-react';
 import Link from 'next/link';
@@ -25,25 +21,10 @@ const suggestions = [
 const Page = () => {
   const [value, setValue] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  const [selectedTemplate, setSelectedTemplate] = useState<'auto' | TemplateId>('auto');
-  const [languageModel, setLanguageModel] = useState<LLMModelConfig>({ model: 'gpt-4o-mini' });
   const router = useRouter();
-
-  // Only OpenAI models (modelsList is an array)
-  const filteredModels = (modelsList as any)
-    .filter((model: any) => model.providerId === 'openai')
-    .map((model: any) => ({ 
-      ...model,
-      provider: 'openai' as const,
-      providerId: 'openai' as const,
-    }));
 
   function handleFileChange(change: SetStateAction<File[]>) {
     setFiles(change);
-  }
-
-  function handleLanguageModelChange(config: LLMModelConfig) {
-    setLanguageModel({ ...languageModel, ...config });
   }
 
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -56,8 +37,6 @@ const Page = () => {
     if (value.trim()) {
       // Store in localStorage to be used by main page
       localStorage.setItem('landingPageInput', value);
-      localStorage.setItem('landingPageTemplate', selectedTemplate);
-      localStorage.setItem('landingPageModel', JSON.stringify(languageModel));
       localStorage.setItem('landingPageFiles', JSON.stringify(files));
       
       // Redirect to main page
@@ -65,13 +44,9 @@ const Page = () => {
     }
   }
 
-  const currentModel = filteredModels.find(
-    (model: any) => model.id === languageModel.model,
-  );
-
   return (
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
-      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 pt-24 sm:pt-32 md:pt-48">
+      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 pt-32 sm:pt-32 md:pt-48">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center">Ingin bikin website namun malas ngoding</h1>
         <p className="text-base sm:text-lg md:text-xl text-center py-4 sm:py-6">Ketikin aja!</p>
         <div className="w-full max-w-2xl pb-8">
@@ -85,18 +60,12 @@ const Page = () => {
             input={value}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
-            isMultiModal={currentModel?.multiModal || false}
+            isMultiModal={false}
             files={files}
             handleFileChange={handleFileChange}
           >
-            <ChatPicker
-              templates={templates}
-              selectedTemplate={selectedTemplate}
-              onSelectedTemplateChange={setSelectedTemplate}
-              models={filteredModels}
-              languageModel={languageModel}
-              onLanguageModelChange={handleLanguageModelChange}
-            />
+          
+            {null}
           </ChatInput>
           
           <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mt-4 sm:mt-6">
