@@ -124,8 +124,8 @@ async function handleSandboxExecution(req: Request) {
     accessToken: string | undefined
   } = await req.json()
 
-  console.log('fragment', fragment)
-  console.log('userID', userId)
+  // console.log('fragment', fragment)
+  // console.log('userID', userId)
 
   console.log('[SANDBOX] Creating sandbox with template:', fragment.template)
   const sbx = await Sandbox.create("enggan-ngoding", {
@@ -135,11 +135,11 @@ async function handleSandboxExecution(req: Request) {
     },
     timeoutMs: sandboxTimeout,
   })
-  console.log('[SANDBOX] Created sandbox:', sbx.sandboxId)
+  // console.log('[SANDBOX] Created sandbox:', sbx.sandboxId)
 
   // Install packages
   if (fragment.has_additional_dependencies) {
-    console.log('[SANDBOX] Installing dependencies:', fragment.additional_dependencies)
+    // console.log('[SANDBOX] Installing dependencies:', fragment.additional_dependencies)
     await sbx.commands.run(fragment.install_dependencies_command)
     console.log(
       `[SANDBOX] Installed dependencies: ${fragment.additional_dependencies.join(', ')} in sandbox ${sbx.sandboxId}`,
