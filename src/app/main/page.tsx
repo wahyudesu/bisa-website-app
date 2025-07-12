@@ -15,7 +15,7 @@ import { DeepPartial } from 'ai'
 import { experimental_useObject as useObject } from 'ai/react'
 import { SetStateAction, useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
-import { useUser, SignInButton, UserButton } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 
 export default function Home() {
   const [chatInput, setChatInput] = useLocalStorage('chat', '')

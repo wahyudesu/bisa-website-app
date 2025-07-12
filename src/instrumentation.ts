@@ -8,10 +8,20 @@
 //   }
 // }
 
-import { registerOTel } from "@vercel/otel";
+// import { registerOTel } from "@vercel/otel";
  
+// export function register() {
+//   registerOTel({
+//     serviceName: "multi-step-tool-calls-demo",
+//   });
+// }
+
+import { registerOTel } from '@vercel/otel';
+import { AISDKExporter } from 'langsmith/vercel';
+
 export function register() {
   registerOTel({
-    serviceName: "multi-step-tool-calls-demo",
+    serviceName: 'langsmith-vercel-ai-sdk-example',
+    traceExporter: new AISDKExporter(),
   });
 }
