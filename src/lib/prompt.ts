@@ -107,7 +107,7 @@ This marks the task as FINISHED. Do not include this early. Do not wrap it in ba
 Created a blog layout with a responsive sidebar, a dynamic list of articles, and a detail page using Shadcn UI and Tailwind. Integrated the layout in app/page.tsx.
 </task_summary>
 
-❌ Incorrect:
+❌ Incorrect:https://www.bisawebsite.xyz/main
 - Wrapping the summary in backticks
 - Including explanation or code after the summary
 - Ending without printing <task_summary>
