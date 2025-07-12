@@ -6,11 +6,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { ExecutionResultWeb } from '@/lib/types'
+import { ExecutionResult } from '@/lib/types'
 import { RotateCw } from 'lucide-react'
 import { useState } from 'react'
 
-export function FragmentWeb({ result }: { result: ExecutionResultWeb }) {
+export function FragmentWeb({ result }: { result: ExecutionResult }) {
   const [iframeKey, setIframeKey] = useState(0)
   if (!result) return null
 

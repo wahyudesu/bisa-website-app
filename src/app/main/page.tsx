@@ -10,7 +10,6 @@ import { LLMModelConfig } from '@/lib/models'
 import modelsList from '@/lib/models.json'
 import { FragmentSchema, fragmentSchema as schema } from '@/lib/schema'
 import { supabase } from '@/lib/supabase'
-import templates, { TemplateId } from '@/lib/templates'
 import { ExecutionResult } from '@/lib/types'
 import { DeepPartial } from 'ai'
 import { experimental_useObject as useObject } from 'ai/react'
@@ -21,9 +20,6 @@ import { useUser, SignInButton, UserButton } from '@clerk/nextjs'
 export default function Home() {
   const [chatInput, setChatInput] = useLocalStorage('chat', '')
   const [files, setFiles] = useState<File[]>([])
-  const [selectedTemplate, setSelectedTemplate] = useState<'auto' | TemplateId>(
-    'auto',
-  )
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
@@ -46,7 +42,6 @@ export default function Home() {
   // Check for data from landing page
   useEffect(() => {
     const landingInput = localStorage.getItem('landingPageInput');
-    const landingTemplate = localStorage.getItem('landingPageTemplate');
     const landingModel = localStorage.getItem('landingPageModel');
     const landingFiles = localStorage.getItem('landingPageFiles');
     
@@ -54,10 +49,8 @@ export default function Home() {
       setChatInput(landingInput);
       localStorage.removeItem('landingPageInput');
     }
-    if (landingTemplate) {
-      setSelectedTemplate(landingTemplate as 'auto' | TemplateId);
-      localStorage.removeItem('landingPageTemplate');
-    }
+    // Remove template handling since we only use enggan-ngoding
+    localStorage.removeItem('landingPageTemplate');
     if (landingModel) {
       setLanguageModel(JSON.parse(landingModel));
       localStorage.removeItem('landingPageModel');
@@ -90,14 +83,10 @@ export default function Home() {
   const currentModel = filteredModels.find(
     (model: any) => model.id === languageModel.model,
   )
-  const currentTemplate =
-    selectedTemplate === 'auto'
-      ? templates
-      : { [selectedTemplate]: templates[selectedTemplate] }
   const lastMessage = messages[messages.length - 1]
 
   const { object, submit, isLoading, stop, error } = useObject({
-    api: '/api/chat',
+    api: '/api/ai', // Using ai endpoint for chat
     schema,
     onError: (error) => {
       console.error('Error submitting request:', error)
@@ -109,11 +98,11 @@ export default function Home() {
     },
     onFinish: async ({ object: fragment, error }) => {
       if (!error) {
-        // send it to /api/sandbox
+        // send it to ai endpoint for execution
         console.log('fragment', fragment)
         setIsPreviewLoading(true)
 
-        const response = await fetch('/api/sandbox', {
+        const response = await fetch('/api/ai?action=execute', { // Using ai endpoint for sandbox execution
           method: 'POST',
           body: JSON.stringify({
             fragment,
@@ -205,7 +194,6 @@ export default function Home() {
       userID: user?.id,
       teamID: undefined,
       messages: toAISDKMessages(updatedMessages),
-      template: currentTemplate,
       model: currentModel,
       config: languageModel,
     })
@@ -221,7 +209,6 @@ export default function Home() {
       userID: user?.id,
       teamID: undefined,
       messages: toAISDKMessages(messages),
-      template: currentTemplate,
       model: currentModel,
       config: languageModel,
     })
@@ -308,9 +295,6 @@ export default function Home() {
         handleFileChange={handleFileChange}
           >
         <ChatPicker
-          templates={templates}
-          selectedTemplate={selectedTemplate}
-          onSelectedTemplateChange={setSelectedTemplate}
           models={filteredModels}
           languageModel={languageModel}
           onLanguageModelChange={handleLanguageModelChange}
