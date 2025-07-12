@@ -9,20 +9,12 @@ export async function POST(req: Request) {
   const action = url.searchParams.get('action') // 'chat' or 'execute'
 
   if (action === 'execute') {
-    // Redirect to sandbox endpoint
-    const sandboxUrl = new URL('/api/ai/sandbox', url.origin)
-    return fetch(sandboxUrl, {
-      method: 'POST',
-      headers: req.headers,
-      body: await req.text(),
-    })
+    // Import and call sandbox handler
+    const { POST: sandboxHandler } = await import('./sandbox/route')
+    return sandboxHandler(req)
   } else {
-    // Redirect to chat endpoint
-    const chatUrl = new URL('/api/ai/chat', url.origin)
-    return fetch(chatUrl, {
-      method: 'POST',
-      headers: req.headers,
-      body: await req.text(),
-    })
+    // Import and call chat handler
+    const { POST: chatHandler } = await import('./chat/route')
+    return chatHandler(req)
   }
 }
