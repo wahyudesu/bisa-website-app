@@ -46,7 +46,7 @@ const Page = () => {
 
   return (
     <div className="min-h-screen dark:bg-transparent bg-transparent flex flex-col relative overflow-hidden">
-      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 pt-32 sm:pt-48 md:pt-48">
+      <main className="flex-1 flex flex-col items-center justify-center w-full px-4 pt-44 sm:pt-48 md:pt-48">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center">Ingin bikin website namun malas ngoding</h1>
         <p className="text-base sm:text-lg md:text-xl text-center py-4 sm:py-6">Ketikin aja!</p>
         <div className="w-full max-w-2xl pb-8">
