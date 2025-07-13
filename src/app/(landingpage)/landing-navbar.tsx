@@ -1,6 +1,8 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import ThemeToggle from '@/components/ui/theme-toggle';
+import { FaGithub } from "react-icons/fa";
+import Link from 'next/link';
 
 export default function LandingNavBar() {
   return (
@@ -13,8 +15,13 @@ export default function LandingNavBar() {
         <div className="ml-2 sm:ml-4">
           <ThemeToggle />
         </div>
+        <Button size="icon" asChild>
+          <Link href="https://github.com/wahyudesu/bisa-website-app" target="_blank" rel="noopener noreferrer">
+            <FaGithub/>
+          </Link>
+        </Button>
         <div>
-          <Button asChild size="sm">
+          <Button>
             <a href="/sign-up">Getting started</a>
           </Button>
         </div>

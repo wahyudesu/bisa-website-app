@@ -12,10 +12,10 @@ import { Github, Twitter, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 const suggestions = [
-  "Social media feed",
-  "Music player",
-  "Crypto portfolio tracker",
-  "Recharts dashboard",
+  "Landingpage umkm",
+  "Game tetris sederhana",
+  "Aplikasi todo list",
+  "Inventori Keuangan",
 ];
 
 const Page = () => {
@@ -146,7 +146,6 @@ const Page = () => {
             <div className="flex space-x-4 mt-4 sm:mt-0">
               <Link href="/terms">Terms</Link>
               <Link href="/privacy">Privacy</Link>
-              <Link href="#">Docs</Link>
             </div>
             <p className="text-center">&copy; 2025 Bisa website.</p>
           </div>
