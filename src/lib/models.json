@@ -1,17 +1,5 @@
 [
   {
-    "id": "gpt-4o",
-    "name": "GPT-4o",
-    "provider": "openai",
-    "providerId": "openai"
-  },
-  {
-    "id": "gpt-4.1",
-    "name": "GPT-4.1",
-    "provider": "openai",
-    "providerId": "openai"
-  },
-  {
     "id": "gpt-4o-mini",
     "name": "GPT-4o Mini",
     "provider": "openai",
