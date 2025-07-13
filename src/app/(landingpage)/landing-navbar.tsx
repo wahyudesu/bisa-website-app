@@ -9,7 +9,7 @@ export default function LandingNavBar() {
     <header className="flex items-center justify-between w-full px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48 mx-auto py-4 sm:py-6 bg-transparent">
       <div className="flex items-center gap-2">
         <img src="/logo.svg" alt="Logo" className="h-6 w-6 sm:h-10 sm:w-10" />
-        <span className="text-sm sm:text-2xl font-bold">Bisa website</span>
+        <span className="text-base sm:text-2xl font-bold">Bisa website</span>
       </div>
       <div className="flex items-center gap-2 sm:gap-3">
         <div className="ml-2 sm:ml-4">
