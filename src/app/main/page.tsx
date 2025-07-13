@@ -23,10 +23,9 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'gpt-4.1',
+      model: 'gpt-4.1-mini',
     },
   )
-
 
   const [result, setResult] = useState<ExecutionResult>()
   const [messages, setMessages] = useState<Message[]>([])
@@ -89,7 +88,13 @@ export default function Home() {
     api: '/api/ai', // Using ai endpoint for chat
     schema,
     onError: (error) => {
-      console.error('Error submitting request:', error)
+      console.error('[FRONTEND] Error submitting request:', error)
+      console.error('[FRONTEND] Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        cause: error.cause
+      })
       if (error.message.includes('limit')) {
         setIsRateLimited(true)
       }
@@ -97,35 +102,60 @@ export default function Home() {
       setErrorMessage(error.message)
     },
     onFinish: async ({ object: fragment, error }) => {
+      console.log('[FRONTEND] onFinish called with:', { fragment, error })
+      
       if (!error) {
         // send it to ai endpoint for execution
-        console.log('fragment', fragment)
+        console.log('[FRONTEND] Fragment generated successfully, sending to sandbox:', fragment)
         setIsPreviewLoading(true)
 
-        const response = await fetch('/api/ai?action=execute', { // Using ai endpoint for sandbox execution
-          method: 'POST',
-          body: JSON.stringify({
-            fragment,
-            userID: user?.id,
-            teamID: undefined, // No team concept in Clerk
-            accessToken: undefined, // No access token needed
-          }),
-        })
+        try {
+          const response = await fetch('/api/ai?action=execute', { // Using ai endpoint for sandbox execution
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              fragment,
+              userID: user?.id,
+              teamID: undefined, // No team concept in Clerk
+              accessToken: undefined, // No access token needed
+            }),
+          })
 
-        const result = await response.json()
-        console.log('result', result)
+          console.log('[FRONTEND] Sandbox response status:', response.status)
+          
+          if (!response.ok) {
+            throw new Error(`Sandbox execution failed: ${response.status}`)
+          }
 
-        setResult(result)
-        setCurrentPreview({ fragment, result })
-        setMessage({ result })
-        setCurrentTab('fragment')
-        setIsPreviewLoading(false)
+          const result = await response.json()
+          console.log('[FRONTEND] Sandbox execution result:', result)
+
+          setResult(result)
+          setCurrentPreview({ fragment, result })
+          setMessage({ result })
+          setCurrentTab('fragment')
+          setIsPreviewLoading(false)
+        } catch (error) {
+          console.error('[FRONTEND] Sandbox execution error:', error)
+          setIsPreviewLoading(false)
+        }
+      } else {
+        console.error('[FRONTEND] Fragment generation failed:', error)
       }
     },
   })
 
+  console.log('[FRONTEND] Current object state:', object)
+  console.log('[FRONTEND] Current isLoading state:', isLoading)
+  console.log('[FRONTEND] Current error state:', error)
+
   useEffect(() => {
+    console.log('[FRONTEND] useEffect triggered - object changed:', object)
+    
     if (object) {
+      console.log('[FRONTEND] Setting fragment from object:', object)
       setFragment(object)
       const content: Message['content'] = [
         { type: 'text', text: object.commentary || '' },
@@ -133,6 +163,7 @@ export default function Home() {
       ]
 
       if (!lastMessage || lastMessage.role !== 'assistant') {
+        console.log('[FRONTEND] Adding new assistant message')
         addMessage({
           role: 'assistant',
           content,
@@ -141,6 +172,7 @@ export default function Home() {
       }
 
       if (lastMessage && lastMessage.role === 'assistant') {
+        console.log('[FRONTEND] Updating existing assistant message')
         setMessage({
           content,
           object,

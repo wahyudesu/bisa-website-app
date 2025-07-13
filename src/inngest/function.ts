@@ -39,7 +39,7 @@ export const helloWorld = inngest.createFunction(
       Think step-by-step before you start the task.
       `,
       model: openai({
-        model: 'gpt-4o',
+        model: 'gpt-4.1-mini',
         apiKey: process.env.OPENAI_API_KEY,
         baseUrl: "https://ai.sumopod.com/v1",
         defaultParameters: {
@@ -148,7 +148,7 @@ export const helloWorld = inngest.createFunction(
       name: "Coding Network",
       agents: [agent],
       defaultModel: openai({
-        model: "gpt-4o",
+        model: "gpt-4.1-mini",
         apiKey: process.env.OPENAI_API_KEY,
         baseUrl: "https://ai.sumopod.com/v1",
         defaultParameters: {
