@@ -35,26 +35,22 @@ const sampleTiers: PricingTier[] = [
         name: "Website Starter",
         icon: <Pencil className="w-6 h-6" />,
         price: "Free",
-        description: "Perfect for short video beginners",
+        description: "Untuk pemula",
         color: "amber",
         features: [
-            "60-second Video Export",
-            "10 Trending Templates",
-            "Auto Text-to-Speech",
-            "Basic Transitions",
+            "Free generated unlimited websites ",
+            "Deploy on public",
         ],
     },
     {
         name: "Website Pro",
         icon: <Star className="w-6 h-6" />,
         price: "Free",
-        description: "For serious content creators",
+        description: "Untuk menengah",
         color: "blue",
         features: [
-            "3-minute Video Export",
-            "Voice Effects & Filters",
-            "Trending Sound Library",
-            "Auto Captions & Subtitles",
+            "Free generated unlimited websites ",
+            "Deploy on public",
         ],
         popular: true,
     },
@@ -62,13 +58,11 @@ const sampleTiers: PricingTier[] = [
         name: "Website Pro Max",
         icon: <Sparkles className="w-6 h-6" />,
         price: "Free",
-        description: "For viral content masters",
+        description: "Untuk profesional",
         color: "purple",
         features: [
-            "Multi-clip Editing",
-            "Green Screen Effects",
-            "Viral Sound Detection",
-            "Engagement Analytics",
+            "Free generated unlimited websites ",
+            "Deploy on public",
         ],
     },
 ];
@@ -229,8 +223,8 @@ const Page = () => {
             <div className="bg-purple-100 rounded-xl p-3 mb-3">
               <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" rx="12" fill="#a259ff" opacity="0.15"/><path d="M7 11V7a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v4M7 11v6a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-6M7 11h10" stroke="#a259ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
-            <h3 className="font-semibold text-lg mb-2">Free for a week</h3>
-            <p className="text-sm text-accent-foreground">Start building your web app with a 7-day free trial after sign up.</p>
+            <h3 className="font-semibold text-lg mb-2">Free for all</h3>
+            <p className="text-sm text-accent-foreground">Start building your web app with a free use on OpenAI API</p>
           </div>
           <div className="flex flex-col items-center text-center">
             <div className="bg-purple-100 rounded-xl p-3 mb-3">
@@ -247,9 +241,11 @@ const Page = () => {
             <p className="text-sm text-accent-foreground">Publish your project under a custom domain whenever you're ready.</p>
           </div>
         </div>
-        <Button size="lg" className='bg-[#a259ff] hover:bg-[#7c3aed] text-white'>
-          Start Now
-        </Button>
+        <Link href="/sign-in">
+          <Button size="lg" className='bg-[#a259ff] hover:bg-[#7c3aed] text-white'>
+            Start Now
+          </Button>
+        </Link>
       </section>
 
       {/* Pricing Section */}
