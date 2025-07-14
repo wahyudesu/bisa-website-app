@@ -92,7 +92,7 @@ const testimonials = [
   },
   {
     name: "Faiz intifada",
-    avatarUrl: "/form/faiz.png",
+    avatarUrl: "/form/Faiz.png",
     rating: 5,
     content: "waaah gokill nih 😃",
   },
