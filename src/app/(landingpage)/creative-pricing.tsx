@@ -14,8 +14,8 @@ interface PricingTier {
 
 function CreativePricing({
     tag = "Simple Pricing",
-    title = "Make Short Videos That Pop",
-    description = "Edit, enhance, and go viral in minutes",
+    title = "Make Websites in Minutes",
+    description = "Build fully functional websites and web apps by simply chatting with AI. Launch in 1 click – no coding, no delays.",
     tiers,
 }: {
     tag?: string;
