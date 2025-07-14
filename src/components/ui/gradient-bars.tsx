@@ -8,7 +8,7 @@ interface GradientBarsProps {
 }
 
 export const GradientBars = ({
-  bars = 40,
+  bars = 30,
   colors = ["#8f0feb", "transparent"],
 }: GradientBarsProps) => {
   const gradientStyle = `linear-gradient(to top, ${colors.join(", ")})`;
