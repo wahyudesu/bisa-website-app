@@ -14,6 +14,7 @@ import { ExecutionResult } from '@/lib/types'
 import { DeepPartial } from 'ai'
 import { ChevronsRight, LoaderCircle } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
+import { DeployDialog } from './deploy-dialog'
 
 export function Preview({
   teamID,
@@ -98,14 +99,14 @@ export function Preview({
           </div>
           {result && (
             <div className="flex items-center justify-end gap-2">
-              {/* {isLinkAvailable && (
+              {isLinkAvailable && (
                 <DeployDialog
                   url={result.url!}
                   sbxId={result.sbxId!}
                   teamID={teamID}
                   accessToken={accessToken}
                 />
-              )} */}
+              )}
             </div>
           )}
         </div>

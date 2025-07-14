@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Duration } from '@/lib/duration'
+import { Globe } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 export function DeployDialog({
@@ -56,38 +57,20 @@ export function DeployDialog({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="default">
-          <Logo style="e2b" width={16} height={16} className="mr-2" />
-          Deploy to E2B
+          {/* <Logo style="e2b" width={16} height={16} className="mr-2" /> */}
+          <Globe width={16} height={16} className="mr-2"/>
+          Deploy 
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-4 w-80 flex flex-col gap-2">
-        <div className="text-sm font-semibold">Deploy to E2B</div>
+        <div className="text-sm font-semibold">Deploy Global</div>
         <div className="text-sm text-muted-foreground">
-          Deploying the fragment will make it publicly accessible to others via
+          Deploying yout web will make it publicly accessible to others via
           link.
         </div>
         <div className="text-sm text-muted-foreground">
-          The fragment will be available up until the expiration date you choose
-          and you&apos;ll be billed based on our{' '}
-          <a
-            href="https://e2b.dev/docs/pricing"
-            target="_blank"
-            className="underline"
-          >
-            Compute pricing
-          </a>
-          .
-        </div>
-        <div className="text-sm text-muted-foreground">
-          All new accounts receive $100 worth of compute credits. Upgrade to{' '}
-          <a
-            href="https://e2b.dev/dashboard?tab=billing"
-            target="_blank"
-            className="underline"
-          >
-            Pro tier
-          </a>{' '}
-          for longer expiration.
+          Your website will be available up until the expiration date you choose
+          and you&apos;ll be billed based on our Compute pricing
         </div>
         <form className="flex flex-col gap-2" onSubmit={publishURL}>
           {publishedURL ? (
@@ -103,11 +86,11 @@ export function DeployDialog({
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Expires in</SelectLabel>
-                  <SelectItem value="30m">30 Minutes</SelectItem>
-                  <SelectItem value="1h">1 Hour</SelectItem>
-                  <SelectItem value="3h">3 Hours · Pro</SelectItem>
-                  <SelectItem value="6h">6 Hours · Pro</SelectItem>
-                  <SelectItem value="1d">1 Day · Pro</SelectItem>
+                  <SelectItem value="1h">1 Jam</SelectItem>
+                  <SelectItem value="3h">3 Jam</SelectItem>
+                  <SelectItem value="12h">12 Jam</SelectItem>
+                  <SelectItem value="1d">1 Hari</SelectItem>
+                  <SelectItem value="3d">3 Hari</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
